@@ -2,6 +2,7 @@
 import { notFound } from "next/navigation";
 import { useParams } from "next/navigation";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   FaStar,
   FaClock,
@@ -158,7 +159,7 @@ export default function FoodItemPage() {
   const [isFavorite, setIsFavorite] = useState(false);
   const { foodId } = useParams();
   const foodItem = menuItems.find((item) => item.id.toString() === foodId);
-
+  const router = useRouter();
   if (!foodItem) {
     notFound();
   }
@@ -182,6 +183,9 @@ export default function FoodItemPage() {
     foodItem.price * quantity +
     selectedExtras.reduce((sum, extra) => sum + extra.price, 0);
 
+  const handlenavigation = () => {
+    router.push("/order");
+  };
   return (
     <main className="min-h-screen bg-gray-50">
       <Navbar />
@@ -361,7 +365,10 @@ export default function FoodItemPage() {
               <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-medium flex-1 transition-colors">
                 Add to Cart (${subtotal.toFixed(2)})
               </button>
-              <button className="border border-orange-500 text-orange-500 hover:bg-orange-50 px-6 py-3 rounded-lg font-medium flex-1 transition-colors">
+              <button
+                onClick={() => handlenavigation}
+                className="border border-orange-500 text-orange-500 hover:bg-orange-50 px-6 py-3 rounded-lg font-medium flex-1 transition-colors"
+              >
                 Order Now
               </button>
             </div>
